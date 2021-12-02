@@ -1,37 +1,60 @@
-## Welcome to GitHub Pages
+# Installing Docker with OpenVAS/Greenbone vulnerability scanner
 
-You can use the [editor on GitHub](https://github.com/reb8510/docker1/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+**Welcome to how to install Docker**
+<p>This is how to install Docker on Ubuntu. I also installed OpenVAS/Greenbone vulnerability scanner via Docker. </p>
+<p>Go ahead and open up your Ubuntu VM and open terminal.</p>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+**Apt Update**
+<p>To make sure all the reposititories are updated.</p>
+<pre><code> sudo apt-get update</code></pre>
 
-### Markdown
+**Apt Upgrade**
+<p>To make sure all the reposititories are upgraded.</p>
+<pre><code> sudo apt-get upgrade</code></pre>
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+**Install Docker**
+<p>This is when you will actually install docker after you have updated and upgraded all repositiories.</p>
+<pre><code> sudo apt-get install docker.io</code></pre>
 
-```markdown
-Syntax highlighted code block
+**Check Status**
+<p>To check to see if Docker is running you will run this command.</p>
+<pre><code>sudo service docker status</code></pre>
 
-# Header 1
-## Header 2
-### Header 3
+**If inactive, run this**
+<p>If by chance your Docker is not running (inactive), you will run this command.</p>
+<pre><code> sudo service docker start</code></pre>
 
-- Bulleted
-- List
+**Check Status**
+<p>To check to see if Docker is running once again you will run this command. This will then show the Docker is active!</p>
+<pre><code>sudo service docker status</code></pre>
 
-1. Numbered
-2. List
+**Install Container for OpenVAS**
+<p>To run an application you will need to install a container for OpenVAS. This is the Container I used. The Container was not found locally, but it will download from Docker. So it will take a couple minutes.</p>
+<pre><code>sudo docker run -d -p 443:443 --name openvas mikesplain/openvas</code></pre>
 
-**Bold** and _Italic_ and `Code` text
+**Open Local Host**
+<p>Since now the container is installed locally, open FireFox and open up the following...</p>
+<pre><code>https://localhost/</code></pre>
 
-[Link](url) and ![Image](src)
-```
+**Login to OpenVAS**
+<p>Login to OpenVAS and then you will instantly be taken to the dashboard to run scans</p>
+<pre><code>login: admin password: admin</code></pre>
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+**Run Vulnerability Scan**
+<p>Login to OpenVAS, open dashboard, above the dashboard you will find "Scans" and once you hover over "Scans", you will click "Task," once the Task dashboard loads, you will find the star icon in the left corner, and that is where you will choose to create a Vulnerability Scan.  </p>
 
-### Jekyll Themes
+**How to create a docker-compose.yml file**
+<pre><code>docker run -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock:ro --restart always --log-out max-size=1g nginx</code></pre>
+<p>This is the output once the docker-compose.yml is created</p>
+<pre><code>version: '3.3'
+services:
+    nginx:
+        ports:
+            - '80:80'
+        volumes:
+            - '/var/run/docker.sock:/tmp/docker.sock:ro'
+        restart: always
+        image: nginx
+        </code></pre>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/reb8510/docker1/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Attached in the Harvey submission is the output of the OpenVAS dashboard! Thank you :-)
